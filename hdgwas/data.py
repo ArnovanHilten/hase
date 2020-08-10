@@ -1016,7 +1016,7 @@ class PLINKFolder(Folder):
 		# print("------------------------------------------")
 		# print(bim_lines_com[0])
 		# N=int(bim_lines_com[0].split(' ')[0])
-		N = int(sum(1 for line in open(self.path,file +'.bim')))
+		N = int(sum(1 for line in open(os.path.join(self.path,file +'.bim'))))
 
 		print(('Number of Probes {} in {}'.format(N,file+'.bim')))
 		self.N_probes+=N
@@ -1096,7 +1096,8 @@ class PLINKFolder(Folder):
 		nru = self.nru
 		slice= ba.bitarray(endian="little")
 
-		bit_number=((2*(c+b)*nru)-(2*c*nru))/8
+		bit_number=((2*(c+b)*nru)-(2*c*nru))//8
+
 		slice.fromfile(self.bed, bit_number )
 
 		X = np.array(slice.decode(self._bedcode), dtype="float64").reshape((b, nru)).T

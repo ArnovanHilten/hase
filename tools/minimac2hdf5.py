@@ -23,7 +23,7 @@ def probes_minimac2hdf5(data_path, save_path,study_name, chunk_size=1000000):
 
 	df=pd.read_csv(data_path,sep=' ',chunksize=chunk_size, header=None,index_col=None)
 	for i,chunk in enumerate(df):
-		print 'add chunk {}'.format(i)
+		print('add chunk {}'.format(i))
 		chunk.columns=["ID",'allele1','allele2','MAF','Rsq']
 		hash_1=chunk.allele1.apply(hash)
 		hash_2=chunk.allele2.apply(hash)
@@ -66,7 +66,7 @@ def id_minimac2hdf5(data_path,id, save_path):
 	store=h5py.File(os.path.join(save_path,'genotype',id+'.h5'), 'w')
 	with Timer() as t:
 		store.create_dataset(id,data=n,compression='gzip',compression_opts=9 )
-	print 'standard save gzip 9...', t.secs
+	print('standard save gzip 9...', t.secs)
 	store.close()
 
 
@@ -79,7 +79,7 @@ def id_minimac2hdf5_pandas(data_path,id, save_path):
 	store=h5py.File(os.path.join(save_path,'genotype',id+'.h5'), 'w')
 	with Timer() as t:
 		store.create_dataset(id,data=n,compression='gzip',compression_opts=9 )
-	print 'pandas save gzip 9...', t.secs
+	print('pandas save gzip 9...', t.secs)
 	store.close()
 	df=None
 
@@ -89,8 +89,8 @@ def genotype_minimac2hdf5(data_path,id, save_path, study_name):
 	df=pd.read_csv(data_path, header=None, index_col=None,sep='\t', dtype=np.float16)
 	data=df.as_matrix()
 	data=data.T
-	print data.shape
-	print 'Saving chunk...{}'.format(os.path.join(save_path,'genotype',str(id)+'_'+study_name+'.h5'))
+	print(data.shape)
+	print('Saving chunk...{}'.format(os.path.join(save_path,'genotype',str(id)+'_'+study_name+'.h5')))
 	h5_gen_file = tables.open_file(
 		os.path.join(save_path,'genotype',str(id)+'_'+study_name+'.h5'), 'w', title=study_name)
 
@@ -116,7 +116,7 @@ if __name__=="__main__":
 
 	args = parser.parse_args()
 
-	print args
+	print(args)
 	try:
 		print ('Creating directories...')
 		os.mkdir(os.path.join(args.out,'genotype') )
@@ -124,12 +124,12 @@ if __name__=="__main__":
 		os.mkdir(os.path.join(args.out,'probes') )
 		os.mkdir(os.path.join(args.out,'tmp_files'))
 	except:
-		print('Directories "genotype","probes","individuals" are already exist in {}...'.format(args.out))
+		print(('Directories "genotype","probes","individuals" are already exist in {}...'.format(args.out)))
 
 	if args.id is not None and args.flag=='genotype':
 		with Timer() as t:
 			id_minimac2hdf5_pandas(args.data, args.id, args.out)
-		print 'time pandas...',t.secs
+		print('time pandas...',t.secs)
 	elif args.flag=='probes':
 		probes_minimac2hdf5(args.data, args.out, args.study_name)
 	elif args.flag=='individuals':

@@ -13,11 +13,11 @@ if __name__ == '__main__':
     parser.add_argument('-exclude_ids', type=str, default=None,
                         help='Table with IDs to exclude from data. Should have ID column')
     args = parser.parse_args()
-    print args
+    print(args)
 
     if args.exclude_ids is not None:
         df = pd.DataFrame.from_csv(args.snp_id_inc, index_col=None)
-        print df.head()
+        print(df.head())
         if 'ID' not in df.columns:
             raise ValueError('{} table does not have ID or columns'.format(args.exclude_ids))
 
@@ -31,10 +31,10 @@ if __name__ == '__main__':
         keep_index = np.where(info_index == False)[0]
 
         if len(remove_index) == 0:
-            print 'There is no ids to remove!'
+            print('There is no ids to remove!')
             exit(0)
         if len(keep_index) == len(df_ids.individual):
-            print "Need to remove everybody!!! "
+            print("Need to remove everybody!!! ")
             exit(0)
 
         individuals = df_ids.individual[~remove_index]
@@ -43,7 +43,7 @@ if __name__ == '__main__':
                      min_itemsize=25, complib='zlib', complevel=9)
 
         for g_file in os.listdir(os.path.join(args.g, 'genotype')):
-            print g_file
+            print(g_file)
 
             data = h5py.File(os.path.join(args.g, 'genotype', g_file), 'r')['genotype'][...]
             data = data[:, keep_index]

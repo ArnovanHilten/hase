@@ -18,7 +18,7 @@ parser.add_argument("-o", "--out", type=str, required=True, help="path to save r
 parser.add_argument("-save_name", type=str, required=True, help="file name to save")
 
 args = parser.parse_args()
-print args
+print(args)
 
 def random_phenotype(Ns,Np):
     pass

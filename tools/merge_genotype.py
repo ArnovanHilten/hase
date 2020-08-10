@@ -25,7 +25,7 @@ parser.add_argument('-split',type=int,help='Split size for merge genotypes')
 
 
 args = parser.parse_args()
-print args
+print(args)
 
 if __name__ == '__main__':
 

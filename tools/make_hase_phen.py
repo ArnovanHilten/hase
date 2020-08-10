@@ -11,12 +11,12 @@ parser.add_argument("-id",type=str, help="csv data frame with two columns:"
                                          "2) exclude: 1 if exclude, 0 if include to analysis")
 
 args = parser.parse_args()
-print args
+print(args)
 
 
 df=pd.read_csv(args.id, index_col=0)
 
-print df.head()
+print(df.head())
 subject_id=[]
 
 for i in df.iterrows():
@@ -31,7 +31,7 @@ dic['id']=subject_id
 files=os.listdir(args.i)
 
 for f in files:
-    print f
+    print(f)
     if f.split('.')[-1]!='npy':
         raise ValueError('In {} should be only nparrays, not {}'.format(args.i,f))
 

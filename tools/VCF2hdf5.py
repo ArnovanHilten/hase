@@ -23,8 +23,8 @@ def probes_VCF2hdf5(data_path, save_path,study_name, chunk_size=1000000):
 
 	df=pd.read_csv(data_path,sep='\t',chunksize=chunk_size, header=None,index_col=None)
 	for i,chunk in enumerate(df):
-		print 'add chunk {}'.format(i)
-		print chunk.head()
+		print('add chunk {}'.format(i))
+		print(chunk.head())
 		chunk.columns=[ "CHR","bp" ,"ID",'allele1','allele2','QUAL','FILTER','INFO'] #TODO (high) parse INFO
 		hash_1=chunk.allele1.apply(hash)
 		hash_2=chunk.allele2.apply(hash)
@@ -58,8 +58,8 @@ def genotype_VCF2hdf5(data_path,id, save_path, study_name):
 
 	df=pd.read_csv(data_path, header=None, index_col=None,sep='\t', dtype=np.float16)
 	data=df.as_matrix()
-	print data.shape
-	print 'Saving chunk...{}'.format(os.path.join(save_path,'genotype',str(id)+'_'+study_name+'.h5'))
+	print(data.shape)
+	print('Saving chunk...{}'.format(os.path.join(save_path,'genotype',str(id)+'_'+study_name+'.h5')))
 	h5_gen_file = tables.open_file(
 		os.path.join(save_path,'genotype',str(id)+'_'+study_name+'.h5'), 'w', title=study_name)
 
@@ -85,7 +85,7 @@ if __name__=="__main__":
 
 	args = parser.parse_args()
 
-	print args
+	print(args)
 	try:
 		print ('Creating directories...')
 		os.mkdir(os.path.join(args.out,'genotype') )
@@ -93,7 +93,7 @@ if __name__=="__main__":
 		os.mkdir(os.path.join(args.out,'probes') )
 		os.mkdir(os.path.join(args.out,'tmp_files'))
 	except:
-		print('Directories "genotype","probes","individuals" are already exist in {}...'.format(args.out))
+		print(('Directories "genotype","probes","individuals" are already exist in {}...'.format(args.out)))
 
 	if args.flag=='probes':
 		probes_VCF2hdf5(args.data, args.out, args.study_name)

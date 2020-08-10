@@ -25,7 +25,7 @@ if __name__=="__main__":
 	#TODO (low) add reference panel
 	args = parser.parse_args()
 	Analyser=HaseAnalyser()
-	print args
+	print(args)
 
 	Analyser.DF=args.df
 	Analyser.result_path=args.r

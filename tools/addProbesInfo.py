@@ -27,7 +27,7 @@ else:
 
 
 df_probes=store.select('probes',columns=probes_columns)
-print 'Probes shape {}'.format(df_probes.shape)
+print('Probes shape {}'.format(df_probes.shape))
 
 if os.path.isfile( args.p.split('.h5')[0] + '_hash_table.csv.gz'):
     try:
@@ -37,7 +37,7 @@ if os.path.isfile( args.p.split('.h5')[0] + '_hash_table.csv.gz'):
         df_hash = pd.read_csv( args.p.split('.h5')[0] + '_hash_table.csv.gz', sep='\t',
                               index_col=False)
 
-    print 'Hash table found!'
+    print('Hash table found!')
     df_probes = pd.merge(df_probes,df_hash, right_on='keys', left_on='allele1')
     df_probes['allele1'] = df_probes['allele']
     del df_probes['allele']
@@ -45,14 +45,14 @@ if os.path.isfile( args.p.split('.h5')[0] + '_hash_table.csv.gz'):
     df_probes['allele2'] = df_probes['allele']
     df_probes=df_probes[probes_columns]
 else:
-    print 'Hash table is not found!!!'
+    print('Hash table is not found!!!')
 
 
 df = pd.read_csv(args.i, compression='infer', sep=" ",chunksize=args.chunk )
 
 phenotypes=[]
 for i,df_chunk in enumerate(df):
-    print 'Chunk number {}'.format(i)
+    print('Chunk number {}'.format(i))
     df_chunk = pd.merge(df_chunk, df_probes, left_on='RSID', right_on='ID')
     df_chunk= df_chunk[probes_columns + [ 'MAF', 'BETA', 'SE', 'p_value', 'phenotype', 't-stat'  ]]
     df_chunk.rename(columns={'MAF': 'AF_coded'}, inplace=True)
